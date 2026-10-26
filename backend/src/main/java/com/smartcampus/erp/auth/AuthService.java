@@ -132,16 +132,19 @@ public class AuthService {
     }
 
     private String displayName(User user, StudentProfile student, FacultyProfile faculty) {
-        if (student != null) {
+        if (student != null && student.fullName() != null && !student.fullName().isBlank()) {
             return student.fullName();
         }
-        if (faculty != null) {
+        if (faculty != null && faculty.fullName() != null && !faculty.fullName().isBlank()) {
             return faculty.fullName();
         }
-        if ("ADMIN".equals(user.role())) {
+        if (user != null && "ADMIN".equals(user.role())) {
             return "Dr. A. K. Sundaram (Registrar)";
         }
-        return user.loginId();
+        if (user != null && user.loginId() != null && !user.loginId().isBlank()) {
+            return user.loginId();
+        }
+        return "User";
     }
 
     private String roleLabel(String role) {
